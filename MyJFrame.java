@@ -19,11 +19,13 @@ public class MyJFrame {
            
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Image image = new ImageIcon(("taylorswifthead.jpg")).getImage();
+                Image image = new ImageIcon(("t/Users/nmunjal/Downloads/erascity/taylorswifthead.jpg")).getImage();
                 g.drawImage(image, 400, 300, getWidth(), getHeight(), this);
             }
 
         };
+
+        System.out.println("here");
 
         frame.add(button);
 
