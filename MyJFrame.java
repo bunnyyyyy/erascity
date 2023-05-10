@@ -1,36 +1,54 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Graphics;
 
 public class MyJFrame {
 
+    private JFrame frame;
+    private JLabel label;
     
     
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("My JFrame");
+
+    public MyJFrame()
+    {
+        frame = new JFrame("My JFrame");
         
-        JButton button = new JButton("Button");
+        // JButton button = new JButton("Button");
+
+        // button.setBounds(50,50,100,100);
+        // frame.getContentPane().add(button);
+        
+        
+        label = new JLabel(new ImageIcon(("swiftie.jpeg")));
+
+        label.setBounds(50,50,100,100);
+
+        label.setVisible(true);
+
+        frame.getContentPane().add(label);
 
         
-        frame.setSize(800, 600);
+        frame.setBounds(10,10,800, 600);
         frame.setResizable(false);
         
-        
-        JPanel panel = new JPanel() {
+
+        JPanel main = new JPanel();
+        main.setBackground(Color.WHITE);
+        main.setLayout(new BorderLayout(10, 10));
+    
            
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Image image = new ImageIcon(("t/Users/nmunjal/Downloads/erascity/taylorswifthead.jpg")).getImage();
-                g.drawImage(image, 400, 300, getWidth(), getHeight(), this);
-            }
-
-        };
-
-        System.out.println("here");
-
-        frame.add(button);
-
-        frame.add(panel);
+        main.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        frame.add(main);
+            
+        
         
         frame.setVisible(true);
+    }
+    
+
+    public static void main(String[] args) {
+        
+        new MyJFrame();
+        
     }
 }
