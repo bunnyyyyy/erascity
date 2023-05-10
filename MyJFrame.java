@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Graphics;
 
 public class MyJFrame {
 
@@ -19,7 +18,7 @@ public class MyJFrame {
         // frame.getContentPane().add(button);
         
         
-        label = new JLabel(new ImageIcon(("swiftie.jpeg")));
+        label = new JLabel(new ImageIcon(("/Users/nmunjal/Downloads/erascity/tops/swiftie.jpeg")));
 
         label.setBounds(50,50,100,100);
 
@@ -39,8 +38,6 @@ public class MyJFrame {
            
         main.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         frame.add(main);
-            
-        
         
         frame.setVisible(true);
     }
