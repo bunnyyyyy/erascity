@@ -27,17 +27,17 @@ public class MyJFrame {
         frame.getContentPane().add(label);
 
         
-        frame.setBounds(10,10,800, 600);
+        frame.setBounds(10,10,1000, 800);
         frame.setResizable(false);
         
 
-        JPanel main = new JPanel();
-        main.setBackground(Color.WHITE);
-        main.setLayout(new BorderLayout(10, 10));
+        // JPanel main = new JPanel();
+        // main.setBackground(Color.WHITE);
+        // main.setLayout(new BorderLayout(10, 10));
     
            
-        main.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        frame.add(main);
+        // main.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // frame.add(main);
         
         frame.setVisible(true);
     }
