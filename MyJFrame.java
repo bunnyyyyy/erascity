@@ -11,6 +11,13 @@ public class MyJFrame {
         frame = new JFrame("Eras City"); 
         frame.setBounds(10,10,1000, 800);
         frame.setResizable(false);
+        frame.getContentPane().setLayout(null);
+
+
+        
+    }
+
+    public void setVisible() {
         frame.setVisible(true);
     }
 
@@ -19,6 +26,7 @@ public class MyJFrame {
         label.setBounds(x, y, width, height);
         label.setVisible(true);
         frame.getContentPane().add(label);
+        
 
     }
     public void add(JButton button, int x, int y, int width, int height) {
@@ -32,10 +40,9 @@ public class MyJFrame {
 
     public static void main(String[] args) {
        
-        new MyJFrame();
         DressUp speakNow = new DressUp();
         speakNow.displayInitial();
-        
+        speakNow.setVisible();
         
         
     }

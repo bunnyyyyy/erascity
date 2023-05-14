@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.util.*;
-import java.util.Queue;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -10,14 +9,19 @@ public class DressUp extends MyJFrame implements ActionListener {
     private LinkedList<JLabel> tops;
     private LinkedList<JLabel> middle;
     private LinkedList<JLabel> bottom;
+    private HashMap<JLabel, String> pictures;
+    private JButton topleft, topright, middleleft, middleright, bottomleft, bottomright;
 
     /**
      * Initializes three linked lists of JLabels with top, middle, and bottom pictures of Taylor Swift outfits. 
      */
     public DressUp() {
+        super();
         tops = new LinkedList<JLabel>();
         middle = new LinkedList<JLabel>();
         bottom = new LinkedList<JLabel>();
+        Icon left = new ImageIcon("/Users/nmunjal/Downloads/erascity/leftarrow.png");
+        topleft = new JButton(left);
 
         File topfiles = new File("tops");
         File middlefiles = new File("middle");
@@ -29,6 +33,7 @@ public class DressUp extends MyJFrame implements ActionListener {
 
         for (File x : listoftops) {
             JLabel label = new JLabel(new ImageIcon((x.getAbsolutePath())));
+            pictures.put(label, getKey(x.getAbsolutePath()));
             tops.add(label);
         }
 
@@ -45,12 +50,22 @@ public class DressUp extends MyJFrame implements ActionListener {
     }
 
     public void displayInitial() {
-        super.add(tops.get(0), 400, 200, 200, 150);
-        super.add(middle.get(0), 400, 375, 200, 150);
-        super.add(bottom.get(0), 400, 550, 200, 150);
+        super.add(tops.get(1), 350, 200, 300, 150);
+        super.add(middle.get(1), 350, 375, 300, 150);
+        super.add(bottom.get(1), 350, 550, 300, 150);
+
+
     }
 
 
+    public String getKey(String filePath) {
+        int lastSlashIndex = filePath.lastIndexOf('/');
+        int dotIndex = filePath.lastIndexOf('.');
+
+        String key = filePath.substring(lastSlashIndex + 1, dotIndex);
+        return key;
+
+    }
 
 
 
