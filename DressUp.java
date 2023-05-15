@@ -5,14 +5,14 @@ import java.awt.event.*;
 import java.io.*;
 
 public class DressUp extends MyJFrame implements ActionListener {
-    public static int size = 4;
+    public static int size = 10;
     private ArrayList<JLabel> tops;
     private ArrayList<JLabel> middle;
     private ArrayList<JLabel> bottom;
     private HashMap<JLabel, String> pictures;
     private JButton topleft, topright, middleleft, middleright, bottomleft, bottomright;
     private Node<JLabel> topnode;
-    private int topindex = 1, middleindex = 1, bottomindex = 1;
+    private int topindex = 0, middleindex = 0, bottomindex = 0;
 
     /**
      * Initializes three linked lists of JLabels with top, middle, and bottom pictures of Taylor Swift outfits. 
@@ -53,31 +53,37 @@ public class DressUp extends MyJFrame implements ActionListener {
         File[] listofbottoms = bottomfiles.listFiles();
 
 
-        System.out.println("TOPS");
+       
         for (File x : listoftops) {
             JLabel label = new JLabel(new ImageIcon(new ImageIcon(x.getAbsolutePath()).getImage().getScaledInstance(300, 150, Image.SCALE_DEFAULT)));
             pictures.put(label, getKey(x.getAbsolutePath()));
-            tops.add(label);
-            System.out.println(x.getAbsolutePath());
+            if (!getKey(x.getAbsolutePath()).equals("")) {
+                tops.add(label);
+            } 
         }
+        
 
-        System.out.println("MIDDLE");
+       
         for (File x : listofmiddles) {
             JLabel label = new JLabel(new ImageIcon(new ImageIcon(x.getAbsolutePath()).getImage().getScaledInstance(300, 150, Image.SCALE_DEFAULT)));
             pictures.put(label, getKey(x.getAbsolutePath()));
-            middle.add(label);
-            System.out.println(x.getAbsolutePath());
+            if (!getKey(x.getAbsolutePath()).equals("")) {
+                middle.add(label);
+            }
+            
         }
 
-        System.out.println("BOTTOM");
         for (File x : listofbottoms) {
             JLabel label = new JLabel(new ImageIcon(new ImageIcon(x.getAbsolutePath()).getImage().getScaledInstance(300, 150, Image.SCALE_DEFAULT)));
             pictures.put(label, getKey(x.getAbsolutePath()));
-            bottom.add(label);
-            System.out.println(x.getAbsolutePath());
+            if (!getKey(x.getAbsolutePath()).equals("")) {
+                bottom.add(label);
+            }
+           
         }
-
-
+        Collections.shuffle(tops);
+        Collections.shuffle(middle);
+        Collections.shuffle(bottom);
 
 
 
@@ -88,9 +94,9 @@ public class DressUp extends MyJFrame implements ActionListener {
 
     //displays the first pictures + buttons
     public void displayInitial() {
-        super.add(tops.get(1), 350, 200, 300, 150);
-        super.add(middle.get(1), 350, 375, 300, 150);
-        super.add(bottom.get(1), 350, 550, 300, 150);
+        super.add(tops.get(0), 350, 200, 300, 150);
+        super.add(middle.get(0), 350, 375, 300, 150);
+        super.add(bottom.get(0), 350, 550, 300, 150);
         super.add(topleft, 250, 250, 50, 50);
         super.add(middleleft, 250, 425, 50, 50);
         super.add(bottomleft, 250, 600, 50, 50);
@@ -161,13 +167,13 @@ public class DressUp extends MyJFrame implements ActionListener {
     }
 
     public void checkButtons() {
-        if(topindex == 1) {
+        if(topindex == 0) {
             remove(topleft);
         }
         else {
             add(topleft);
         }
-        if(topindex == size) {
+        if(topindex == size - 1) {
             remove(topright);
         }
         else {
@@ -175,26 +181,26 @@ public class DressUp extends MyJFrame implements ActionListener {
         }
 
 
-        if(middleindex == 1) {
+        if(middleindex == 0) {
             remove(middleleft);
         }
         else {
             add(middleleft);
         }
-        if(middleindex == size) {
+        if(middleindex == size - 1) {
             remove(middleright);
         }
         else {
             add(middleright);
         }
 
-        if(bottomindex == 1) {
+        if(bottomindex == 0) {
             remove(bottomleft);
         }
         else {
             add(bottomleft);
         }
-        if(bottomindex == size) {
+        if(bottomindex == size - 1) {
             remove(bottomright);
         }
         else {

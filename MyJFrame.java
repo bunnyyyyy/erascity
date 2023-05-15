@@ -35,7 +35,7 @@ public class MyJFrame {
 
     }
 
-    
+   
     
 
     public static void main(String[] args) {
@@ -44,6 +44,10 @@ public class MyJFrame {
         speakNow.displayInitial();
         speakNow.setVisible();
         speakNow.buttonsWork();
+        System.out.println(speakNow.getKey("/Users/nmunjal/Downloads/erascity/tops/.DS_Store"));
+        System.out.println(speakNow.getKey("/Users/nmunjal/Downloads/erascity/tops/Midnights.png"));
+
+
         
         
     }
