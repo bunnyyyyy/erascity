@@ -1,3 +1,16 @@
+eras:
+debut
+fearless
+speak now
+red
+1989
+reputation
+lover
+folklore
+evermore
+midnights
+
+
 
 
 reputation: 
