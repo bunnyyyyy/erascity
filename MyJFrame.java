@@ -13,8 +13,6 @@ public class MyJFrame {
         frame.setResizable(false);
         frame.getContentPane().setLayout(null);
 
-
-        
     }
 
     public void setVisible() {
@@ -36,6 +34,8 @@ public class MyJFrame {
         frame.getContentPane().add(button);
 
     }
+
+    
     
 
     public static void main(String[] args) {
@@ -43,6 +43,7 @@ public class MyJFrame {
         DressUp speakNow = new DressUp();
         speakNow.displayInitial();
         speakNow.setVisible();
+        speakNow.buttonsWork();
         
         
     }
