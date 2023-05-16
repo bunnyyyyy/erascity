@@ -12,6 +12,8 @@ public class MyJFrame {
         frame.setBounds(10,10,1000, 800);
         frame.setResizable(false);
         frame.getContentPane().setLayout(null);
+        Color lightPurple = new Color(243, 225, 255);
+        frame.getContentPane().setBackground(lightPurple);
 
     }
 
@@ -44,8 +46,7 @@ public class MyJFrame {
         speakNow.displayInitial();
         speakNow.setVisible();
         speakNow.buttonsWork();
-        System.out.println(speakNow.getKey("/Users/nmunjal/Downloads/erascity/tops/.DS_Store"));
-        System.out.println(speakNow.getKey("/Users/nmunjal/Downloads/erascity/tops/Midnights.png"));
+        
 
 
         

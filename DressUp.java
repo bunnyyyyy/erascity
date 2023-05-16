@@ -1,4 +1,7 @@
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -10,9 +13,12 @@ public class DressUp extends MyJFrame implements ActionListener {
     private ArrayList<JLabel> middle;
     private ArrayList<JLabel> bottom;
     private HashMap<JLabel, String> pictures;
+    private JLabel title;
+    private ArrayList<String> albums;
     private JButton topleft, topright, middleleft, middleright, bottomleft, bottomright;
     private Node<JLabel> topnode;
-    private int topindex = 0, middleindex = 0, bottomindex = 0;
+    private int topindex = 0, middleindex = 0, bottomindex = 0, titleindex = 0;
+
 
     /**
      * Initializes three linked lists of JLabels with top, middle, and bottom pictures of Taylor Swift outfits. 
@@ -21,7 +27,16 @@ public class DressUp extends MyJFrame implements ActionListener {
         //create the frame
         super();
 
+        //initializes albums to all the names of albums
+        albums = new ArrayList<>(Arrays.asList("Debut", "Fearless", "Speak Now", "Red", 
+        "1989", "Reputation", "Lover", "Folkore", "Evermore", "Midnights"));
+        Collections.shuffle(albums);
+        
         //initializes all the pictures and the buttons
+        title = new JLabel(albums.get(0), SwingConstants.CENTER); 
+        title.setFont(new Font("Serif", Font.PLAIN, 70));
+        
+
         pictures = new HashMap<JLabel, String>();
         tops = new ArrayList<JLabel>();
         middle = new ArrayList<JLabel>();
@@ -94,9 +109,19 @@ public class DressUp extends MyJFrame implements ActionListener {
 
     //displays the first pictures + buttons
     public void displayInitial() {
+        super.add(title, 325, 50, 350, 100);
         super.add(tops.get(0), 350, 200, 300, 150);
         super.add(middle.get(0), 350, 375, 300, 150);
         super.add(bottom.get(0), 350, 550, 300, 150);
+
+        Border border = BorderFactory.createBevelBorder(BevelBorder.RAISED);
+        topleft.setBorder(border);
+        middleleft.setBorder(border);
+        bottomleft.setBorder(border);
+        topright.setBorder(border);
+        middleright.setBorder(border);
+        bottomright.setBorder(border);
+        
         super.add(topleft, 250, 250, 50, 50);
         super.add(middleleft, 250, 425, 50, 50);
         super.add(bottomleft, 250, 600, 50, 50);
@@ -104,6 +129,10 @@ public class DressUp extends MyJFrame implements ActionListener {
         super.add(middleright, 700, 425, 50, 50);
         super.add(bottomright, 700, 600, 50, 50);
         checkButtons();
+
+    }
+
+    public void newTitle() {
 
     }
 
