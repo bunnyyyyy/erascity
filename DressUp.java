@@ -12,12 +12,14 @@ public class DressUp extends MyJFrame implements ActionListener {
     private ArrayList<JLabel> tops;
     private ArrayList<JLabel> middle;
     private ArrayList<JLabel> bottom;
-    private HashMap<JLabel, String> pictures;
+    private HashMap<JLabel, String> pictures; //STOP
     private JLabel title;
     private ArrayList<String> albums;
-    private JButton topleft, topright, middleleft, middleright, bottomleft, bottomright;
+    private JButton topleft, topright, middleleft, middleright, bottomleft, bottomright, checkButton;
     private Node<JLabel> topnode;
     private int topindex = 0, middleindex = 0, bottomindex = 0, titleindex = 0;
+    private int points = 0;
+    private JLabel pointsLabel, rightWrongLabel;
 
 
     /**
@@ -33,8 +35,13 @@ public class DressUp extends MyJFrame implements ActionListener {
         Collections.shuffle(albums);
         
         //initializes all the pictures and the buttons
-        title = new JLabel(albums.get(0), SwingConstants.CENTER); 
+        title = new JLabel(albums.get(0), SwingConstants.CENTER);
+        pointsLabel = new JLabel("Points: 0 / 0", SwingConstants.CENTER);
+        rightWrongLabel = new JLabel("RIGHT!", SwingConstants.CENTER);
         title.setFont(new Font("Serif", Font.PLAIN, 70));
+        pointsLabel.setFont(new Font("Serif", Font.PLAIN, 30));
+        rightWrongLabel.setFont(new Font("Serif", Font.PLAIN, 55));
+        
         
 
         pictures = new HashMap<JLabel, String>();
@@ -54,6 +61,9 @@ public class DressUp extends MyJFrame implements ActionListener {
         middleright = new JButton(right);
         bottomright = new JButton(right);
 
+        checkButton = new JButton("Check");
+        checkButton.setFont(new Font("Serif", Font.PLAIN, 30));
+
 
 
         
@@ -67,7 +77,11 @@ public class DressUp extends MyJFrame implements ActionListener {
         File[] listofmiddles = middlefiles.listFiles();
         File[] listofbottoms = bottomfiles.listFiles();
 
+        
 
+
+
+        
        
         for (File x : listoftops) {
             JLabel label = new JLabel(new ImageIcon(new ImageIcon(x.getAbsolutePath()).getImage().getScaledInstance(300, 150, Image.SCALE_DEFAULT)));
@@ -110,9 +124,12 @@ public class DressUp extends MyJFrame implements ActionListener {
     //displays the first pictures + buttons
     public void displayInitial() {
         super.add(title, 325, 50, 350, 100);
+        super.add(pointsLabel, 800, 50, 150, 100);
         super.add(tops.get(0), 350, 200, 300, 150);
         super.add(middle.get(0), 350, 375, 300, 150);
         super.add(bottom.get(0), 350, 550, 300, 150);
+        super.add(rightWrongLabel, 10, 140, 200, 100);
+        rightWrongLabel.setVisible(false);
 
         Border border = BorderFactory.createBevelBorder(BevelBorder.RAISED);
         topleft.setBorder(border);
@@ -121,19 +138,21 @@ public class DressUp extends MyJFrame implements ActionListener {
         topright.setBorder(border);
         middleright.setBorder(border);
         bottomright.setBorder(border);
-        
+
         super.add(topleft, 250, 250, 50, 50);
         super.add(middleleft, 250, 425, 50, 50);
         super.add(bottomleft, 250, 600, 50, 50);
         super.add(topright, 700, 250, 50, 50);
         super.add(middleright, 700, 425, 50, 50);
         super.add(bottomright, 700, 600, 50, 50);
+        super.add(checkButton, 50, 70, 100, 50);
         checkButtons();
 
     }
 
     public void newTitle() {
-
+        titleindex += 1;
+        title.setText(albums.get(titleindex));
     }
 
 
@@ -190,6 +209,46 @@ public class DressUp extends MyJFrame implements ActionListener {
                add(bottom.get(bottomindex), 350, 550, 300, 150);
                checkButtons();
             }
+         });
+
+         checkButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            if (checkButton.getText().equals("Check")) {
+                if (pictures.get(tops.get(topindex)).equals(pictures.get(middle.get(middleindex))) 
+                && pictures.get(middle.get(middleindex)).equals(pictures.get(bottom.get(bottomindex)))
+                && pictures.get(bottom.get(bottomindex)).equals(albums.get(titleindex))
+                ) {
+                    checkButton.setText("Next");
+                    rightWrongLabel.setText("RIGHT!");
+                    rightWrongLabel.setForeground(Color.GREEN);
+                    rightWrongLabel.setVisible(true);
+                    points += 1;
+                    String text = "Points " + points + " / " + (titleindex + 1);
+                    pointsLabel.setText(text);
+                }
+                else {
+                    rightWrongLabel.setText("WRONG!");
+                    rightWrongLabel.setForeground(Color.RED);
+                    rightWrongLabel.setVisible(true);
+                }
+
+                
+            }
+            else if (checkButton.getText().equals("Next")) {
+                if (titleindex == size - 1) {
+                    checkButton.setVisible(false);
+                    rightWrongLabel.setForeground(Color.CYAN);
+                    rightWrongLabel.setText("DONE!!");
+
+                }
+                else {
+                    rightWrongLabel.setVisible(false);
+                    newTitle();
+                }
+            }
+        }
+        
+
          });
 
 
@@ -276,7 +335,6 @@ public class DressUp extends MyJFrame implements ActionListener {
 
     
     public void actionPerformed(ActionEvent e) {
-       
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 
