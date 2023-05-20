@@ -15,7 +15,7 @@ public class DressUp extends MyJFrame implements ActionListener {
     private HashMap<JLabel, String> pictures; //STOP
     private JLabel title;
     private ArrayList<String> albums;
-    private JButton topleft, topright, middleleft, middleright, bottomleft, bottomright, checkButton;
+    private JButton topleft, topright, middleleft, middleright, bottomleft, bottomright, checkButton, skipButton;
     private Node<JLabel> topnode;
     private int topindex = 0, middleindex = 0, bottomindex = 0, titleindex = 0;
     private int points = 0;
@@ -43,40 +43,46 @@ public class DressUp extends MyJFrame implements ActionListener {
         thisIsLabel = new JLabel("This is ", SwingConstants.CENTER);
         wrongAlbumLabel = new JLabel("album", SwingConstants.CENTER);
 
+        //sets the font of all the labels
         title.setFont(new Font("Serif", Font.BOLD, 70));
         pointsLabel.setFont(new Font("Serif", Font.PLAIN, 30));
         rightWrongLabel.setFont(new Font("Serif", Font.PLAIN, 45));
         thisIsLabel.setFont(new Font("Serif", Font.PLAIN, 36));
         wrongAlbumLabel.setFont(new Font("Serif", Font.PLAIN, 36));
         
+        //sets the colors to red of wrong labels
         thisIsLabel.setForeground(Color.RED);
         wrongAlbumLabel.setForeground(Color.RED);
 
+        //initializes hash map to store all labels and keys + array lists
         pictures = new HashMap<JLabel, String>();
         tops = new ArrayList<JLabel>();
         middle = new ArrayList<JLabel>();
         bottom = new ArrayList<JLabel>();
+
+        //creates buttons and puts arrow icons on them
         ImageIcon left = new ImageIcon(new ImageIcon("/Users/nmunjal/Downloads/erascity/leftarrow.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        
-       
         topleft = new JButton(left);
         middleleft = new JButton(left);
         bottomleft = new JButton(left);
+
         ImageIcon right = new ImageIcon(new ImageIcon("/Users/nmunjal/Downloads/erascity/rightarrow.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        
-        
         topright = new JButton(right);
         middleright = new JButton(right);
         bottomright = new JButton(right);
 
+        //creates the check + skip buttons + sets their fonts
         checkButton = new JButton("Check");
+        skipButton = new JButton("Skip");
+
         checkButton.setFont(new Font("Serif", Font.PLAIN, 30));
+        skipButton.setFont(new Font("Serif", Font.PLAIN, 30));
 
 
 
         
-
-        //converts all pictures to labels and puts the labels in top, middle, bottom linked lists 
+        // converts all pictures to labels and puts the labels in top, middle, bottom linked lists 
+        // additionally also puts labels into pictures hash map with respective keys
         File topfiles = new File("tops");
         File middlefiles = new File("middle");
         File bottomfiles = new File("bottom");
@@ -85,11 +91,7 @@ public class DressUp extends MyJFrame implements ActionListener {
         File[] listofmiddles = middlefiles.listFiles();
         File[] listofbottoms = bottomfiles.listFiles();
 
-        
-
-
-
-        
+    
        
         for (File x : listoftops) {
             JLabel label = new JLabel(new ImageIcon(new ImageIcon(x.getAbsolutePath()).getImage().getScaledInstance(300, 150, Image.SCALE_DEFAULT)));
@@ -118,13 +120,11 @@ public class DressUp extends MyJFrame implements ActionListener {
             }
            
         }
+
+        //randomizes picture order
         Collections.shuffle(tops);
         Collections.shuffle(middle);
         Collections.shuffle(bottom);
-
-
-
-
     }
 
 
@@ -144,13 +144,14 @@ public class DressUp extends MyJFrame implements ActionListener {
         thisIsLabel.setVisible(false);
         wrongAlbumLabel.setVisible(false);
 
-        Border border = BorderFactory.createBevelBorder(BevelBorder.RAISED);
-        topleft.setBorder(border);
-        middleleft.setBorder(border);
-        bottomleft.setBorder(border);
-        topright.setBorder(border);
-        middleright.setBorder(border);
-        bottomright.setBorder(border);
+        // Border border = BorderFactory.createBevelBorder(BevelBorder.RAISED);
+        // topleft.setBorder(border);
+        // middleleft.setBorder(border);
+        // bottomleft.setBorder(border);
+        // topright.setBorder(border);
+        // middleright.setBorder(border);
+        // bottomright.setBorder(border);
+        
 
         super.add(topleft, 250, 250, 50, 50);
         super.add(middleleft, 250, 425, 50, 50);
@@ -159,17 +160,21 @@ public class DressUp extends MyJFrame implements ActionListener {
         super.add(middleright, 700, 425, 50, 50);
         super.add(bottomright, 700, 600, 50, 50);
         super.add(checkButton, 60, 70, 100, 50);
+        super.add(skipButton, 180, 70, 100, 50);
         checkButtons();
 
     }
 
+    //moves to new album 
     public void newTitle() {
         titleindex += 1;
         title.setText(albums.get(titleindex));
+        skipButton.setVisible(true);
     }
 
 
 
+    //adds functionality to buttons
     public void buttonsWork() {
         topleft.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -240,6 +245,9 @@ public class DressUp extends MyJFrame implements ActionListener {
                     }
                     String text = "Points " + points + " / " + (titleindex + 1);
                     pointsLabel.setText(text);
+                    thisIsLabel.setVisible(false);
+                    wrongAlbumLabel.setVisible(false);
+                    skipButton.setVisible(false);
                     
                 }
                 else if (pictures.get(tops.get(topindex)).equals(pictures.get(middle.get(middleindex))) 
@@ -280,29 +288,48 @@ public class DressUp extends MyJFrame implements ActionListener {
                     checkButton.setVisible(false);
                     rightWrongLabel.setForeground(Color.CYAN);
                     rightWrongLabel.setText("DONE!!");
-
                     thisIsLabel.setVisible(false);
                     wrongAlbumLabel.setVisible(false);
-
                 }
                 else {
                     thisIsLabel.setText("This is");
+                    checkButton.setText("Check");
                     rightWrongLabel.setVisible(false);
                     thisIsLabel.setVisible(false);
                     wrongAlbumLabel.setVisible(false);
                     newTitle();
-                    checkButton.setText("Check");
+                    
                     firstTry = true;
                 }
             }
         }
-        
-
          });
+
+         skipButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                rightWrongLabel.setVisible(false);
+                thisIsLabel.setVisible(false);
+                wrongAlbumLabel.setVisible(false);
+
+                String text = "Points " + points + " / " + (titleindex + 1);
+                pointsLabel.setText(text);
+
+                newTitle();
+                
+            }
+         });
+
+
 
 
     }
 
+
+    public void doneScreen() {
+        
+    }
+
+    //removes left/right buttons if you cannot go more left or right anymore
     public void checkButtons() {
         if(topindex == 0) {
             remove(topleft);
@@ -348,6 +375,7 @@ public class DressUp extends MyJFrame implements ActionListener {
 
 
     }
+
 
     public void add(JButton button) {
         button.setVisible(true);
