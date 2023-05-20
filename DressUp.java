@@ -19,7 +19,8 @@ public class DressUp extends MyJFrame implements ActionListener {
     private Node<JLabel> topnode;
     private int topindex = 0, middleindex = 0, bottomindex = 0, titleindex = 0;
     private int points = 0;
-    private JLabel pointsLabel, rightWrongLabel;
+    private JLabel pointsLabel, rightWrongLabel, wrongAlbumLabel;
+    private JLabel thisIsLabel;
     private boolean firstTry = true;
 
 
@@ -39,11 +40,17 @@ public class DressUp extends MyJFrame implements ActionListener {
         title = new JLabel(albums.get(0), SwingConstants.CENTER);
         pointsLabel = new JLabel("Points: 0 / 0", SwingConstants.CENTER);
         rightWrongLabel = new JLabel("RIGHT!", SwingConstants.CENTER);
-        title.setFont(new Font("Serif", Font.PLAIN, 70));
+        thisIsLabel = new JLabel("This is ", SwingConstants.CENTER);
+        wrongAlbumLabel = new JLabel("album", SwingConstants.CENTER);
+
+        title.setFont(new Font("Serif", Font.BOLD, 70));
         pointsLabel.setFont(new Font("Serif", Font.PLAIN, 30));
-        rightWrongLabel.setFont(new Font("Serif", Font.PLAIN, 55));
+        rightWrongLabel.setFont(new Font("Serif", Font.PLAIN, 45));
+        thisIsLabel.setFont(new Font("Serif", Font.PLAIN, 36));
+        wrongAlbumLabel.setFont(new Font("Serif", Font.PLAIN, 36));
         
-        
+        thisIsLabel.setForeground(Color.RED);
+        wrongAlbumLabel.setForeground(Color.RED);
 
         pictures = new HashMap<JLabel, String>();
         tops = new ArrayList<JLabel>();
@@ -129,8 +136,13 @@ public class DressUp extends MyJFrame implements ActionListener {
         super.add(tops.get(0), 350, 200, 300, 150);
         super.add(middle.get(0), 350, 375, 300, 150);
         super.add(bottom.get(0), 350, 550, 300, 150);
-        super.add(rightWrongLabel, 10, 140, 200, 100);
+        super.add(rightWrongLabel, 20, 140, 200, 100);
+        super.add(thisIsLabel, 20, 240, 200, 100);
+        super.add(wrongAlbumLabel, 5, 300, 230, 100);
         rightWrongLabel.setVisible(false);
+        rightWrongLabel.setForeground(Color.RED);
+        thisIsLabel.setVisible(false);
+        wrongAlbumLabel.setVisible(false);
 
         Border border = BorderFactory.createBevelBorder(BevelBorder.RAISED);
         topleft.setBorder(border);
@@ -146,7 +158,7 @@ public class DressUp extends MyJFrame implements ActionListener {
         super.add(topright, 700, 250, 50, 50);
         super.add(middleright, 700, 425, 50, 50);
         super.add(bottomright, 700, 600, 50, 50);
-        super.add(checkButton, 50, 70, 100, 50);
+        super.add(checkButton, 60, 70, 100, 50);
         checkButtons();
 
     }
@@ -230,11 +242,35 @@ public class DressUp extends MyJFrame implements ActionListener {
                     pointsLabel.setText(text);
                     
                 }
+                else if (pictures.get(tops.get(topindex)).equals(pictures.get(middle.get(middleindex))) 
+                && pictures.get(middle.get(middleindex)).equals(pictures.get(bottom.get(bottomindex)))) {
+                    firstTry = false;
+                    rightWrongLabel.setText("WRONG!");
+                    rightWrongLabel.setForeground(Color.RED);
+                    thisIsLabel.setText("This is");
+                    wrongAlbumLabel.setText(pictures.get(tops.get(topindex)));
+
+                    // thisIsLabel.setFont(new Font("Serif", Font.PLAIN, 50));
+                    // wrongAlbumLabel.setFont(new Font("Serif", Font.PLAIN, 50));
+
+                    rightWrongLabel.setVisible(true);
+                    thisIsLabel.setVisible(true);
+                    wrongAlbumLabel.setVisible(true);
+                }
                 else {
                     firstTry = false;
                     rightWrongLabel.setText("WRONG!");
                     rightWrongLabel.setForeground(Color.RED);
+
+                    thisIsLabel.setFont(new Font("Serif", Font.PLAIN, 36));
+                    wrongAlbumLabel.setFont(new Font("Serif", Font.PLAIN, 36));
+
+                    thisIsLabel.setText("Outfits Don't");
+                    wrongAlbumLabel.setText("Match");
                     rightWrongLabel.setVisible(true);
+                    thisIsLabel.setVisible(true);
+                    wrongAlbumLabel.setVisible(true);
+                
                 }
 
                 
@@ -245,10 +281,15 @@ public class DressUp extends MyJFrame implements ActionListener {
                     rightWrongLabel.setForeground(Color.CYAN);
                     rightWrongLabel.setText("DONE!!");
 
+                    thisIsLabel.setVisible(false);
+                    wrongAlbumLabel.setVisible(false);
+
                 }
                 else {
-                    
+                    thisIsLabel.setText("This is");
                     rightWrongLabel.setVisible(false);
+                    thisIsLabel.setVisible(false);
+                    wrongAlbumLabel.setVisible(false);
                     newTitle();
                     checkButton.setText("Check");
                     firstTry = true;

@@ -11,6 +11,10 @@ evermore
 midnights
 
 
+future plans:
+add skip button
+once game ends --> add play again button and how much of a fan you are
+add music possibly??
 
 
 reputation: 
