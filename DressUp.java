@@ -20,6 +20,7 @@ public class DressUp extends MyJFrame implements ActionListener {
     private int topindex = 0, middleindex = 0, bottomindex = 0, titleindex = 0;
     private int points = 0;
     private JLabel pointsLabel, rightWrongLabel;
+    private boolean firstTry = true;
 
 
     /**
@@ -31,7 +32,7 @@ public class DressUp extends MyJFrame implements ActionListener {
 
         //initializes albums to all the names of albums
         albums = new ArrayList<>(Arrays.asList("Debut", "Fearless", "Speak Now", "Red", 
-        "1989", "Reputation", "Lover", "Folkore", "Evermore", "Midnights"));
+        "1989", "Reputation", "Lover", "Folklore", "Evermore", "Midnights"));
         Collections.shuffle(albums);
         
         //initializes all the pictures and the buttons
@@ -210,7 +211,7 @@ public class DressUp extends MyJFrame implements ActionListener {
                checkButtons();
             }
          });
-
+         
          checkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             if (checkButton.getText().equals("Check")) {
@@ -222,11 +223,15 @@ public class DressUp extends MyJFrame implements ActionListener {
                     rightWrongLabel.setText("RIGHT!");
                     rightWrongLabel.setForeground(Color.GREEN);
                     rightWrongLabel.setVisible(true);
-                    points += 1;
+                    if (firstTry) {
+                        points += 1;
+                    }
                     String text = "Points " + points + " / " + (titleindex + 1);
                     pointsLabel.setText(text);
+                    
                 }
                 else {
+                    firstTry = false;
                     rightWrongLabel.setText("WRONG!");
                     rightWrongLabel.setForeground(Color.RED);
                     rightWrongLabel.setVisible(true);
@@ -242,8 +247,11 @@ public class DressUp extends MyJFrame implements ActionListener {
 
                 }
                 else {
+                    
                     rightWrongLabel.setVisible(false);
                     newTitle();
+                    checkButton.setText("Check");
+                    firstTry = true;
                 }
             }
         }
