@@ -9,6 +9,7 @@ import java.io.*;
 
 public class DressUp extends MyJFrame implements ActionListener {
     public static int size = 10;
+    public static Color cyan = new Color(0, 139, 139);
     private ArrayList<JLabel> tops;
     private ArrayList<JLabel> middle;
     private ArrayList<JLabel> bottom;
@@ -22,6 +23,8 @@ public class DressUp extends MyJFrame implements ActionListener {
     private JLabel pointsLabel, rightWrongLabel, wrongAlbumLabel;
     private JLabel thisIsLabel;
     private boolean firstTry = true;
+    private JLabel doneLabel, donePointsLabel, doneCustomLabel; 
+    private JLabel taylorGif;
 
 
     /**
@@ -42,23 +45,34 @@ public class DressUp extends MyJFrame implements ActionListener {
         rightWrongLabel = new JLabel("RIGHT!", SwingConstants.CENTER);
         thisIsLabel = new JLabel("This is ", SwingConstants.CENTER);
         wrongAlbumLabel = new JLabel("album", SwingConstants.CENTER);
+        doneLabel = new JLabel("DONE!!", SwingConstants.CENTER);
+        donePointsLabel = new JLabel("You scored ", SwingConstants.CENTER);
+        doneCustomLabel = new JLabel("custom message", SwingConstants.CENTER);
 
         //sets the font of all the labels
         title.setFont(new Font("Serif", Font.BOLD, 70));
-        pointsLabel.setFont(new Font("Serif", Font.PLAIN, 30));
-        rightWrongLabel.setFont(new Font("Serif", Font.PLAIN, 45));
-        thisIsLabel.setFont(new Font("Serif", Font.PLAIN, 36));
-        wrongAlbumLabel.setFont(new Font("Serif", Font.PLAIN, 36));
+        pointsLabel.setFont(new Font("Serif", Font.BOLD, 30));
+        rightWrongLabel.setFont(new Font("Serif", Font.BOLD, 45));
+        thisIsLabel.setFont(new Font("Serif", Font.BOLD, 36));
+        wrongAlbumLabel.setFont(new Font("Serif", Font.BOLD, 36));
+        doneLabel.setFont(new Font("Serif", Font.BOLD, 57));
+        donePointsLabel.setFont(new Font("Serif", Font.BOLD, 57));
+        doneCustomLabel.setFont(new Font("Serif", Font.BOLD, 57));
         
-        //sets the colors to red of wrong labels
+        //sets the colors of labels
         thisIsLabel.setForeground(Color.RED);
         wrongAlbumLabel.setForeground(Color.RED);
+        doneLabel.setForeground(cyan);
+        donePointsLabel.setForeground(cyan);
+        doneCustomLabel.setForeground(cyan);
 
-        //initializes hash map to store all labels and keys + array lists
+
+        //initializes hash map to store all images and keys + array lists
         pictures = new HashMap<JLabel, String>();
         tops = new ArrayList<JLabel>();
         middle = new ArrayList<JLabel>();
         bottom = new ArrayList<JLabel>();
+        taylorGif = new JLabel(new ImageIcon(new ImageIcon("/Users/nmunjal/Downloads/erascity/endscreentay.gif").getImage().getScaledInstance(434, 243, Image.SCALE_DEFAULT)));
 
         //creates buttons and puts arrow icons on them
         ImageIcon left = new ImageIcon(new ImageIcon("/Users/nmunjal/Downloads/erascity/leftarrow.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
@@ -132,7 +146,7 @@ public class DressUp extends MyJFrame implements ActionListener {
     //displays the first pictures + buttons
     public void displayInitial() {
         super.add(title, 325, 50, 350, 100);
-        super.add(pointsLabel, 800, 50, 150, 100);
+        super.add(pointsLabel, 760, 50, 190, 100);
         super.add(tops.get(0), 350, 200, 300, 150);
         super.add(middle.get(0), 350, 375, 300, 150);
         super.add(bottom.get(0), 350, 550, 300, 150);
@@ -167,6 +181,7 @@ public class DressUp extends MyJFrame implements ActionListener {
 
     //moves to new album 
     public void newTitle() {
+        firstTry = true;
         titleindex += 1;
         title.setText(albums.get(titleindex));
         skipButton.setVisible(true);
@@ -231,7 +246,11 @@ public class DressUp extends MyJFrame implements ActionListener {
          
          checkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            
+            
             if (checkButton.getText().equals("Check")) {
+
+                // everything matches up
                 if (pictures.get(tops.get(topindex)).equals(pictures.get(middle.get(middleindex))) 
                 && pictures.get(middle.get(middleindex)).equals(pictures.get(bottom.get(bottomindex)))
                 && pictures.get(bottom.get(bottomindex)).equals(albums.get(titleindex))
@@ -250,6 +269,8 @@ public class DressUp extends MyJFrame implements ActionListener {
                     skipButton.setVisible(false);
                     
                 }
+
+                // outfit matches but wrong album
                 else if (pictures.get(tops.get(topindex)).equals(pictures.get(middle.get(middleindex))) 
                 && pictures.get(middle.get(middleindex)).equals(pictures.get(bottom.get(bottomindex)))) {
                     firstTry = false;
@@ -258,22 +279,23 @@ public class DressUp extends MyJFrame implements ActionListener {
                     thisIsLabel.setText("This is");
                     wrongAlbumLabel.setText(pictures.get(tops.get(topindex)));
 
-                    // thisIsLabel.setFont(new Font("Serif", Font.PLAIN, 50));
-                    // wrongAlbumLabel.setFont(new Font("Serif", Font.PLAIN, 50));
+                    
 
                     rightWrongLabel.setVisible(true);
                     thisIsLabel.setVisible(true);
                     wrongAlbumLabel.setVisible(true);
                 }
+
+                // outfit doesn't even match badd
                 else {
                     firstTry = false;
                     rightWrongLabel.setText("WRONG!");
                     rightWrongLabel.setForeground(Color.RED);
 
-                    thisIsLabel.setFont(new Font("Serif", Font.PLAIN, 36));
-                    wrongAlbumLabel.setFont(new Font("Serif", Font.PLAIN, 36));
+                    thisIsLabel.setFont(new Font("Serif", Font.BOLD, 36));
+                    wrongAlbumLabel.setFont(new Font("Serif", Font.BOLD, 36));
 
-                    thisIsLabel.setText("Outfits Don't");
+                    thisIsLabel.setText("Outfits Dont");
                     wrongAlbumLabel.setText("Match");
                     rightWrongLabel.setVisible(true);
                     thisIsLabel.setVisible(true);
@@ -283,28 +305,28 @@ public class DressUp extends MyJFrame implements ActionListener {
 
                 
             }
+
+            // next button to get new titlel
             else if (checkButton.getText().equals("Next")) {
+                
+                thisIsLabel.setText("This is");
+                checkButton.setText("Check");
+                rightWrongLabel.setVisible(false);
+                thisIsLabel.setVisible(false);
+                wrongAlbumLabel.setVisible(false);
+
                 if (titleindex == size - 1) {
-                    checkButton.setVisible(false);
-                    rightWrongLabel.setForeground(Color.CYAN);
-                    rightWrongLabel.setText("DONE!!");
-                    thisIsLabel.setVisible(false);
-                    wrongAlbumLabel.setVisible(false);
+                    doneScreen();
                 }
                 else {
-                    thisIsLabel.setText("This is");
-                    checkButton.setText("Check");
-                    rightWrongLabel.setVisible(false);
-                    thisIsLabel.setVisible(false);
-                    wrongAlbumLabel.setVisible(false);
-                    newTitle();
-                    
-                    firstTry = true;
-                }
+                    newTitle(); 
+                }                   
+                
             }
         }
          });
 
+         // skips current album to go to next album
          skipButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 rightWrongLabel.setVisible(false);
@@ -314,11 +336,17 @@ public class DressUp extends MyJFrame implements ActionListener {
                 String text = "Points " + points + " / " + (titleindex + 1);
                 pointsLabel.setText(text);
 
-                newTitle();
+                if (titleindex == size - 1) {
+                    doneScreen();
+                }
+                else {
+                    newTitle();
+                }
                 
             }
          });
 
+         
 
 
 
@@ -327,6 +355,46 @@ public class DressUp extends MyJFrame implements ActionListener {
 
     public void doneScreen() {
         
+        //removes all previous buttons, keeps music
+        remove(checkButton);
+        remove(skipButton);
+        remove(rightWrongLabel);
+        remove(thisIsLabel);
+        remove(wrongAlbumLabel);
+        remove(title);
+        remove(pointsLabel);
+        remove(topleft);
+        remove(topright);
+        remove(middleleft);
+        remove(middleright);
+        remove(bottomright);
+        remove(bottomleft);
+        remove(tops.get(topindex));
+        remove(middle.get(middleindex));
+        remove(bottom.get(bottomindex));
+        
+        String pointsText = "You scored " + points + " / " + size + "!";
+        donePointsLabel.setText(pointsText);
+        String customText = "";
+        if (points <= 4) {
+            customText += "You don't deserve tickets..";
+        }
+        else if (points <= 6) {
+            customText += "Mid fan but not a swiftie!";
+        }
+        else if (points <= 8) {
+            customText += "Taylor would be proud!!";
+        }
+        else {
+            customText += "Certified swiftie :)";
+        }
+        doneCustomLabel.setText(customText);
+
+
+        super.add(doneLabel, 20, 100, 730, 100);
+        super.add(donePointsLabel, 20, 200, 730, 100);
+        super.add(doneCustomLabel, 20, 300, 730, 100);
+        super.add(taylorGif, 60, 390, 651, 364);
     }
 
     //removes left/right buttons if you cannot go more left or right anymore

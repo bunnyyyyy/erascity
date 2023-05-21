@@ -37,10 +37,16 @@ public class MyJFrame {
 
     }
 
-   
+
+
     
 
     public static void main(String[] args) {
+
+        // String filepath = "/Users/nmunjal/Downloads/erascity/snowmusic.wav";
+
+        // Music musicObject = new Music();
+        // musicObject.playMusic(filepath);
        
         DressUp speakNow = new DressUp();
         speakNow.displayInitial();
