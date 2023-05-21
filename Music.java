@@ -15,11 +15,11 @@ public class Music extends MyJFrame {
         musicPath = new File(musicLocation);
         audioInput = AudioSystem.getAudioInputStream(musicPath);
         clip = AudioSystem.getClip();
+        clip.open(audioInput);
     }
     
     public void playMusic() {
-
-        clip.open(audioInput);
+        
         clip.start();
     }
 
