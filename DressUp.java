@@ -183,9 +183,9 @@ public class DressUp extends MyJFrame implements ActionListener {
         // bottomright.setBorder(border);
         
         //adds music related things
-        //super.add(changeOfMusicLabel, 0, 0, 0, 0);
-        //super.add(currentSong, 600, 850, 300, 100);
+        super.add(changeOfMusicLabel, 675, 660, 300, 100);
         super.add(currentSong, 675, 700, 300, 100);
+        // super.add(backMusic, )
         
         System.out.println("HEREE");
 
