@@ -10,6 +10,7 @@ import java.io.*;
 public class DressUp extends MyJFrame implements ActionListener {
     public static int size = 10;
     public static Color cyan = new Color(0, 139, 139);
+    public static Color lightPurple = new Color(243, 225, 255);
     private ArrayList<JLabel> tops;
     private ArrayList<JLabel> middle;
     private ArrayList<JLabel> bottom;
@@ -25,6 +26,8 @@ public class DressUp extends MyJFrame implements ActionListener {
     private boolean firstTry = true;
     private JLabel doneLabel, donePointsLabel, doneCustomLabel; 
     private JLabel taylorGif;
+    private JLabel changeOfMusicLabel, currentSong;
+    private JButton backMusic, forwardMusic;
 
 
     /**
@@ -48,6 +51,8 @@ public class DressUp extends MyJFrame implements ActionListener {
         doneLabel = new JLabel("DONE!!", SwingConstants.CENTER);
         donePointsLabel = new JLabel("You scored ", SwingConstants.CENTER);
         doneCustomLabel = new JLabel("custom message", SwingConstants.CENTER);
+        changeOfMusicLabel = new JLabel("Currently Playing", SwingConstants.CENTER);
+        currentSong = new JLabel("Better Than Revenge", SwingConstants.CENTER);
 
         //sets the font of all the labels
         title.setFont(new Font("Serif", Font.BOLD, 70));
@@ -58,6 +63,8 @@ public class DressUp extends MyJFrame implements ActionListener {
         doneLabel.setFont(new Font("Serif", Font.BOLD, 57));
         donePointsLabel.setFont(new Font("Serif", Font.BOLD, 57));
         doneCustomLabel.setFont(new Font("Serif", Font.BOLD, 57));
+        changeOfMusicLabel.setFont(new Font("Serif", Font.BOLD, 30));
+        currentSong.setFont(new Font("Serif", Font.BOLD, 30));
         
         //sets the colors of labels
         thisIsLabel.setForeground(Color.RED);
@@ -77,13 +84,18 @@ public class DressUp extends MyJFrame implements ActionListener {
         //creates buttons and puts arrow icons on them
         ImageIcon left = new ImageIcon(new ImageIcon("/Users/nmunjal/Downloads/erascity/leftarrow.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
         topleft = new JButton(left);
+        topleft.setForeground(lightPurple);
         middleleft = new JButton(left);
         bottomleft = new JButton(left);
+        backMusic = new JButton(left);
 
         ImageIcon right = new ImageIcon(new ImageIcon("/Users/nmunjal/Downloads/erascity/rightarrow.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
         topright = new JButton(right);
         middleright = new JButton(right);
         bottomright = new JButton(right);
+        forwardMusic = new JButton(right);
+
+       
 
         //creates the check + skip buttons + sets their fonts
         checkButton = new JButton("Check");
@@ -153,6 +165,10 @@ public class DressUp extends MyJFrame implements ActionListener {
         super.add(rightWrongLabel, 20, 140, 200, 100);
         super.add(thisIsLabel, 20, 240, 200, 100);
         super.add(wrongAlbumLabel, 5, 300, 230, 100);
+
+
+
+        //miscellaneous things that need to be done
         rightWrongLabel.setVisible(false);
         rightWrongLabel.setForeground(Color.RED);
         thisIsLabel.setVisible(false);
@@ -166,7 +182,14 @@ public class DressUp extends MyJFrame implements ActionListener {
         // middleright.setBorder(border);
         // bottomright.setBorder(border);
         
+        //adds music related things
+        //super.add(changeOfMusicLabel, 0, 0, 0, 0);
+        //super.add(currentSong, 600, 850, 300, 100);
+        super.add(currentSong, 675, 700, 300, 100);
+        
+        System.out.println("HEREE");
 
+        //adds the buttons
         super.add(topleft, 250, 250, 50, 50);
         super.add(middleleft, 250, 425, 50, 50);
         super.add(bottomleft, 250, 600, 50, 50);
@@ -176,6 +199,8 @@ public class DressUp extends MyJFrame implements ActionListener {
         super.add(checkButton, 60, 70, 100, 50);
         super.add(skipButton, 180, 70, 100, 50);
         checkButtons();
+
+        
 
     }
 
@@ -443,6 +468,36 @@ public class DressUp extends MyJFrame implements ActionListener {
 
 
     }
+
+
+
+    //below is everything music related
+    Music speakNowMusic = new Music("snowmusic.wav");
+
+    public void playMusic() {
+        speakNowMusic.playMusic();
+    }
+
+    public void setMusic(long time) {
+        speakNowMusic.setSong(time);
+    }
+
+
+    
+   
+
+    
+
+
+
+
+
+
+
+
+
+
+
 
 
     public void add(JButton button) {

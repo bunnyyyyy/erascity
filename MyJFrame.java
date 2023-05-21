@@ -52,7 +52,7 @@ public class MyJFrame {
         speakNow.displayInitial();
         speakNow.setVisible();
         speakNow.buttonsWork();
-        
+        //speakNow.playMusic();
 
 
         
