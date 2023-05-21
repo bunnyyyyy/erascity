@@ -11,15 +11,17 @@ public class DressUp extends MyJFrame implements ActionListener {
     public static int size = 10;
     public static Color cyan = new Color(0, 139, 139);
     public static Color lightPurple = new Color(243, 225, 255);
+    public static long m = 1000000;
     private ArrayList<JLabel> tops;
     private ArrayList<JLabel> middle;
     private ArrayList<JLabel> bottom;
-    private HashMap<JLabel, String> pictures; //STOP
+    private     Map<JLabel, String> pictures; 
     private JLabel title;
-    private ArrayList<String> albums;
+    private ArrayList<String> albums, speakNowSongs;
+    private ArrayList<Long> speakNowTimes;
     private JButton topleft, topright, middleleft, middleright, bottomleft, bottomright, checkButton, skipButton;
     private Node<JLabel> topnode;
-    private int topindex = 0, middleindex = 0, bottomindex = 0, titleindex = 0;
+    private int topindex = 0, middleindex = 0, bottomindex = 0, titleindex = 0, songindex = 0;
     private int points = 0;
     private JLabel pointsLabel, rightWrongLabel, wrongAlbumLabel;
     private JLabel thisIsLabel;
@@ -37,10 +39,15 @@ public class DressUp extends MyJFrame implements ActionListener {
         //create the frame
         super();
 
-        //initializes albums to all the names of albums
+        //initializes albums to all the names of albums and songs of speak now in order
         albums = new ArrayList<>(Arrays.asList("Debut", "Fearless", "Speak Now", "Red", 
         "1989", "Reputation", "Lover", "Folklore", "Evermore", "Midnights"));
         Collections.shuffle(albums);
+        speakNowSongs = new ArrayList<>(Arrays.asList("Mine", "Sparks Fly", "Back To December", "Speak Now",
+        "Dear John", "Mean", "The Story of Us", "Never Grow Up", "Enchanted", "Better Than Revenge", "Innocent",
+        "Haunted", "Last Kiss", "Long Live"));
+        speakNowTimes =  new ArrayList<>(Arrays.asList(0L, 230L*m, 491L*m, 785L*m, 1019L*m, 1415L*m, 1651L*m, 1916L*m, 
+        2211L*m, 2562L*m, 2779L*m, 3074L*m, 3317L*m, 3682L*m));
         
         //initializes all the pictures and the buttons
         title = new JLabel(albums.get(0), SwingConstants.CENTER);
@@ -52,19 +59,19 @@ public class DressUp extends MyJFrame implements ActionListener {
         donePointsLabel = new JLabel("You scored ", SwingConstants.CENTER);
         doneCustomLabel = new JLabel("custom message", SwingConstants.CENTER);
         changeOfMusicLabel = new JLabel("Currently Playing", SwingConstants.CENTER);
-        currentSong = new JLabel("Better Than Revenge", SwingConstants.CENTER);
+        currentSong = new JLabel(speakNowSongs.get(0), SwingConstants.CENTER);
 
         //sets the font of all the labels
-        title.setFont(new Font("Serif", Font.BOLD, 70));
-        pointsLabel.setFont(new Font("Serif", Font.BOLD, 30));
-        rightWrongLabel.setFont(new Font("Serif", Font.BOLD, 45));
-        thisIsLabel.setFont(new Font("Serif", Font.BOLD, 36));
-        wrongAlbumLabel.setFont(new Font("Serif", Font.BOLD, 36));
-        doneLabel.setFont(new Font("Serif", Font.BOLD, 57));
-        donePointsLabel.setFont(new Font("Serif", Font.BOLD, 57));
-        doneCustomLabel.setFont(new Font("Serif", Font.BOLD, 57));
-        changeOfMusicLabel.setFont(new Font("Serif", Font.BOLD, 30));
-        currentSong.setFont(new Font("Serif", Font.BOLD, 30));
+        title.setFont(new Font("Arial", Font.BOLD, 65));
+        pointsLabel.setFont(new Font("Arial", Font.BOLD, 25));
+        rightWrongLabel.setFont(new Font("Arial", Font.BOLD, 45));
+        thisIsLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        wrongAlbumLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        doneLabel.setFont(new Font("Arial", Font.BOLD, 51));
+        donePointsLabel.setFont(new Font("Arial", Font.BOLD, 51));
+        doneCustomLabel.setFont(new Font("Arial", Font.BOLD, 51));
+        changeOfMusicLabel.setFont(new Font("Arial", Font.BOLD, 25));
+        currentSong.setFont(new Font("Arial", Font.BOLD, 25));
         
         //sets the colors of labels
         thisIsLabel.setForeground(Color.RED);
@@ -83,17 +90,20 @@ public class DressUp extends MyJFrame implements ActionListener {
 
         //creates buttons and puts arrow icons on them
         ImageIcon left = new ImageIcon(new ImageIcon("/Users/nmunjal/Downloads/erascity/leftarrow.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        ImageIcon leftsmall = new ImageIcon(new ImageIcon("/Users/nmunjal/Downloads/erascity/leftarrow.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+
         topleft = new JButton(left);
         topleft.setForeground(lightPurple);
         middleleft = new JButton(left);
         bottomleft = new JButton(left);
-        backMusic = new JButton(left);
+        backMusic = new JButton(leftsmall);
 
         ImageIcon right = new ImageIcon(new ImageIcon("/Users/nmunjal/Downloads/erascity/rightarrow.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        ImageIcon rightsmall = new ImageIcon(new ImageIcon("/Users/nmunjal/Downloads/erascity/rightarrow.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
         topright = new JButton(right);
         middleright = new JButton(right);
         bottomright = new JButton(right);
-        forwardMusic = new JButton(right);
+        forwardMusic = new JButton(rightsmall);
 
        
 
@@ -101,8 +111,8 @@ public class DressUp extends MyJFrame implements ActionListener {
         checkButton = new JButton("Check");
         skipButton = new JButton("Skip");
 
-        checkButton.setFont(new Font("Serif", Font.PLAIN, 30));
-        skipButton.setFont(new Font("Serif", Font.PLAIN, 30));
+        checkButton.setFont(new Font("Arial", Font.BOLD, 25));
+        skipButton.setFont(new Font("Arial", Font.BOLD, 25));
 
 
 
@@ -174,20 +184,25 @@ public class DressUp extends MyJFrame implements ActionListener {
         thisIsLabel.setVisible(false);
         wrongAlbumLabel.setVisible(false);
 
-        // Border border = BorderFactory.createBevelBorder(BevelBorder.RAISED);
-        // topleft.setBorder(border);
-        // middleleft.setBorder(border);
-        // bottomleft.setBorder(border);
-        // topright.setBorder(border);
-        // middleright.setBorder(border);
-        // bottomright.setBorder(border);
+        Border border = BorderFactory.createBevelBorder(BevelBorder.RAISED);
+        topleft.setBorder(border);
+        middleleft.setBorder(border);
+        bottomleft.setBorder(border);
+        topright.setBorder(border);
+        middleright.setBorder(border);
+        bottomright.setBorder(border);
+        backMusic.setBorder(border);
+        forwardMusic.setBorder(border);
         
         //adds music related things
         super.add(changeOfMusicLabel, 675, 660, 300, 100);
         super.add(currentSong, 675, 700, 300, 100);
-        // super.add(backMusic, )
+        super.add(backMusic, 665, 738, 20, 20);
+        super.add(forwardMusic, 965, 738, 20, 20);
         
-        System.out.println("HEREE");
+        
+
+       
 
         //adds the buttons
         super.add(topleft, 250, 250, 50, 50);
@@ -198,7 +213,9 @@ public class DressUp extends MyJFrame implements ActionListener {
         super.add(bottomright, 700, 600, 50, 50);
         super.add(checkButton, 60, 70, 100, 50);
         super.add(skipButton, 180, 70, 100, 50);
+        checkPictureIndex();
         checkButtons();
+        checkMusicButtons();
 
         
 
@@ -218,6 +235,7 @@ public class DressUp extends MyJFrame implements ActionListener {
     public void buttonsWork() {
         topleft.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+               checkPictureIndex();
                remove(tops.get(topindex));
                topindex -= 1;
                add(tops.get(topindex), 350, 200, 300, 150);
@@ -227,6 +245,7 @@ public class DressUp extends MyJFrame implements ActionListener {
 
          topright.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+               checkPictureIndex();
                remove(tops.get(topindex));
                topindex += 1;
                add(tops.get(topindex), 350, 200, 300, 150);
@@ -236,35 +255,43 @@ public class DressUp extends MyJFrame implements ActionListener {
         
          middleleft.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+               checkPictureIndex();
                remove(middle.get(middleindex));
                middleindex -= 1;
                add(middle.get(middleindex), 350, 375, 300, 150);
+               checkPictureIndex();
                checkButtons();
             }
          });
          middleright.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+               checkPictureIndex();
                remove(middle.get(middleindex));
                middleindex += 1;
                add(middle.get(middleindex), 350, 375, 300, 150);
+               checkPictureIndex();
                checkButtons();
             }
          });
 
          bottomleft.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+               checkPictureIndex();
                remove(bottom.get(bottomindex));
                bottomindex -= 1;
                add(bottom.get(bottomindex), 350, 550, 300, 150);
+               checkPictureIndex();
                checkButtons();
             }
          });
 
          bottomright.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+               checkPictureIndex();
                remove(bottom.get(bottomindex));
                bottomindex += 1;
                add(bottom.get(bottomindex), 350, 550, 300, 150);
+               checkPictureIndex();
                checkButtons();
             }
          });
@@ -317,11 +344,11 @@ public class DressUp extends MyJFrame implements ActionListener {
                     rightWrongLabel.setText("WRONG!");
                     rightWrongLabel.setForeground(Color.RED);
 
-                    thisIsLabel.setFont(new Font("Serif", Font.BOLD, 36));
-                    wrongAlbumLabel.setFont(new Font("Serif", Font.BOLD, 36));
+                    thisIsLabel.setFont(new Font("Arial", Font.BOLD, 36));
+                    wrongAlbumLabel.setFont(new Font("Arial", Font.BOLD, 36));
 
-                    thisIsLabel.setText("Outfits Dont");
-                    wrongAlbumLabel.setText("Match");
+                    thisIsLabel.setText("Outfits Not");
+                    wrongAlbumLabel.setText("Matching");
                     rightWrongLabel.setVisible(true);
                     thisIsLabel.setVisible(true);
                     wrongAlbumLabel.setVisible(true);
@@ -368,6 +395,28 @@ public class DressUp extends MyJFrame implements ActionListener {
                     newTitle();
                 }
                 
+            }
+         });
+
+
+
+        //music buttons!!!!!!!!!!!
+        backMusic.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                songindex -= 1;
+                currentSong.setText(speakNowSongs.get(songindex));
+                long time = speakNowTimes.get(songindex);
+                setMusic(time);    
+                checkMusicButtons();
+            }
+         });
+         forwardMusic.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                songindex += 1;
+                currentSong.setText(speakNowSongs.get(songindex));
+                long time = speakNowTimes.get(songindex);
+                setMusic(time);    
+                checkMusicButtons();
             }
          });
 
@@ -427,16 +476,17 @@ public class DressUp extends MyJFrame implements ActionListener {
         if(topindex == 0) {
             remove(topleft);
         }
+        
         else {
             add(topleft);
         }
+        
         if(topindex == size - 1) {
             remove(topright);
         }
         else {
             add(topright);
         }
-
 
         if(middleindex == 0) {
             remove(middleleft);
@@ -467,6 +517,45 @@ public class DressUp extends MyJFrame implements ActionListener {
 
 
 
+    }
+
+    public void checkPictureIndex() {
+        if (topindex < 0) {
+            topindex = 0;
+        }
+        else if (topindex >= size) {
+            topindex = size - 1;
+        }
+
+        if (middleindex < 0) {
+            middleindex = 0;
+        }
+        else if (middleindex >= size) {
+            middleindex = size - 1;
+        }
+
+        if (bottomindex < 0) {
+            bottomindex = 0;
+        }
+        else if (bottomindex >= size) {
+            bottomindex = size - 1;
+        }
+       
+    }
+
+    public void checkMusicButtons() {
+        if(songindex == 0) {
+            remove(backMusic);
+        }
+        else {
+            add(backMusic);
+        }
+        if(songindex == 13) {
+            remove(forwardMusic);
+        }
+        else {
+            add(forwardMusic);
+        }
     }
 
 

@@ -1,6 +1,7 @@
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -18,6 +19,8 @@ public class Music {
         audioInput = AudioSystem.getAudioInputStream(musicPath);
         clip = AudioSystem.getClip();
         clip.open(audioInput);
+        setVolume(-40);
+       
 
         }
         catch (Exception ex) {
@@ -33,5 +36,13 @@ public class Music {
     public void setSong(long time) {
         clip.stop();
         clip.setMicrosecondPosition(time);
+        clip.start();
+    }
+
+    public void setVolume(float volume) {
+        if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            control.setValue(volume);
+        }
     }
 }
