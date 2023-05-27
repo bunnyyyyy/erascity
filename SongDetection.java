@@ -35,7 +35,7 @@ public class SongDetection {
        
         try {
             response = Unirest.get("https://shazam.p.rapidapi.com/shazam-events/list?artistId=73406786&l=en-US&from=2022-12-31&limit=50&offset=0")
-            .header("X-RapidAPI-Key", "bf0fedf424msh5703db89c875beap1f8ca0jsn98d634ff9f75")
+            .header("X-RapidAPI-Key", ApiKey.APIKEY())
             .header("X-RapidAPI-Host", "shazam.p.rapidapi.com")
             .asString();
         } catch (UnirestException e) {
