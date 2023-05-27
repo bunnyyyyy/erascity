@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "unirest-java-1.4.9.jar"
+    ]
+}

@@ -19,7 +19,7 @@ public class Music {
         audioInput = AudioSystem.getAudioInputStream(musicPath);
         clip = AudioSystem.getClip();
         clip.open(audioInput);
-        setVolume(-40);
+        setVolume(-20);
        
 
         }
